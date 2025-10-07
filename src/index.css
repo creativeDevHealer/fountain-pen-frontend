@@ -1,0 +1,151 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Premium collectibles dashboard design system */
+
+@layer base {
+  :root {
+    /* Base colors - elegant neutrals */
+    --background: 220 15% 97%;
+    --foreground: 220 25% 15%;
+
+    /* Card system - premium whites with subtle warmth */
+    --card: 0 0% 100%;
+    --card-foreground: 220 25% 15%;
+
+    /* Popover system */
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 25% 15%;
+
+    /* Primary - sophisticated navy */
+    --primary: 220 45% 25%;
+    --primary-foreground: 0 0% 98%;
+
+    /* Secondary - soft warm gray */
+    --secondary: 220 15% 95%;
+    --secondary-foreground: 220 25% 15%;
+
+    /* Muted tones */
+    --muted: 220 15% 94%;
+    --muted-foreground: 220 15% 45%;
+
+    /* Accent - luxury gold */
+    --accent: 45 95% 68%;
+    --accent-foreground: 220 45% 25%;
+
+    /* Premium accent - deep gold */
+    --premium: 35 85% 55%;
+    --premium-foreground: 0 0% 98%;
+
+    /* Destructive */
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 98%;
+
+    /* Borders and inputs */
+    --border: 220 15% 88%;
+    --input: 220 15% 88%;
+    --ring: 220 45% 25%;
+
+    /* Gradients */
+    --gradient-premium: linear-gradient(135deg, hsl(var(--premium)), hsl(35 75% 45%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(220 15% 98%));
+    
+    /* Shadows */
+    --shadow-elegant: 0 4px 20px -2px hsl(220 25% 15% / 0.08);
+    --shadow-card: 0 2px 8px -1px hsl(220 25% 15% / 0.06);
+    --shadow-premium: 0 8px 32px -4px hsl(35 85% 55% / 0.25);
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Base colors - dark elegant */
+    --background: 220 25% 6%;
+    --foreground: 220 15% 92%;
+
+    /* Card system - dark premium */
+    --card: 220 20% 8%;
+    --card-foreground: 220 15% 92%;
+
+    /* Popover system */
+    --popover: 220 20% 8%;
+    --popover-foreground: 220 15% 92%;
+
+    /* Primary - bright accent for dark mode */
+    --primary: 220 45% 75%;
+    --primary-foreground: 220 25% 15%;
+
+    /* Secondary - dark muted */
+    --secondary: 220 20% 12%;
+    --secondary-foreground: 220 15% 85%;
+
+    /* Muted tones */
+    --muted: 220 20% 10%;
+    --muted-foreground: 220 15% 55%;
+
+    /* Accent - luxury gold (same) */
+    --accent: 45 95% 68%;
+    --accent-foreground: 220 45% 25%;
+
+    /* Premium accent - deep gold (same) */
+    --premium: 35 85% 55%;
+    --premium-foreground: 0 0% 98%;
+
+    /* Destructive */
+    --destructive: 0 75% 65%;
+    --destructive-foreground: 0 0% 98%;
+
+    /* Borders and inputs */
+    --border: 220 20% 15%;
+    --input: 220 20% 15%;
+    --ring: 220 45% 75%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Animation utilities */
+@layer utilities {
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-out;
+  }
+  
+  .animate-scale-in {
+    animation: scale-in 0.2s ease-out;
+  }
+  
+  .hover-scale {
+    @apply transition-transform duration-200 hover:scale-105;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
