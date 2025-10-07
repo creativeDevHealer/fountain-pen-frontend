@@ -17,7 +17,7 @@ export const CollectiblesDashboard = () => {
     const fetchItems = async () => {
       try {
         console.log("Fetching items from the backend");
-        const response = await fetch(`http://localhost:8000/items`);
+        const response = await fetch(`http://44.249.247.63:8000/items`);
         console.log("Response from backend:", response);
         
         if (!response.ok) {
@@ -61,7 +61,7 @@ export const CollectiblesDashboard = () => {
       if (itemToUpdate) {
         const updatedItem = { ...itemToUpdate, saved: !itemToUpdate.saved };
 
-        const response = await fetch(`http://localhost:8000/items/${id}?saved=${updatedItem.saved}`, {
+        const response = await fetch(`http://44.249.247.63:8000/items/${id}?saved=${updatedItem.saved}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(updatedItem),
