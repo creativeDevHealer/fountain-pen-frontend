@@ -215,25 +215,10 @@ export const CollectiblesDashboard = () => {
   const filteredItems = (() => {
     switch (activeTab) {
       case "today":
-        return items.filter(item => {
-          const creationDate = getItemCreationDate(item);
-          const isTodayItem = isToday(creationDate);
-          if (isTodayItem) {
-            console.log('Today item found:', item.name || item.id, 'createdAt:', creationDate);
-          }
-          return isTodayItem;
-        });
       case "last3days":
-        return items.filter(item => {
-          const creationDate = getItemCreationDate(item);
-          const isLast3DaysItem = isLast3Days(creationDate);
-          if (isLast3DaysItem) {
-            console.log('Last 3 days item found:', item.name || item.id, 'createdAt:', creationDate);
-          }
-          return isLast3DaysItem;
-        });
       case "saved":
-        return items.filter(item => item.saved);
+        // Items are already filtered by the backend for these tabs
+        return items;
       default:
         return items;
     }
