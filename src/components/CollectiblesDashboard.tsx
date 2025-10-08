@@ -10,6 +10,8 @@ import { CollectibleItem } from "./CollectibleCard";  // Assuming you've defined
 export const CollectiblesDashboard = () => {
   const [activeTab, setActiveTab] = useState<"today" | "last3days" | "saved">("today");
   const [items, setItems] = useState<CollectibleItem[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
   const { toast } = useToast();
   const [todayCount, setTodayCount] = useState(0);
   const [last3DaysCount, setLast3DaysCount] = useState(0);
@@ -27,7 +29,13 @@ export const CollectiblesDashboard = () => {
     } catch (_e) {}
   };
 
-  useEffect(() => { refreshStats(); }, [activeTab]);
+  useEffect(() => { refreshStats(); }, [activeTab, debouncedQuery]);
+
+  // Debounce search input
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedQuery(searchQuery.trim()), 350);
+    return () => clearTimeout(t);
+  }, [searchQuery]);
 
   // Helper function to check if an item is from today
   const isToday = (dateString: string) => {
@@ -73,7 +81,9 @@ export const CollectiblesDashboard = () => {
         if (activeTab === 'today') endpoint = 'http://localhost:8000/items/today';
         else if (activeTab === 'last3days') endpoint = 'http://localhost:8000/items/last3days';
         else if (activeTab === 'saved') endpoint = 'http://localhost:8000/items/saved';
-        const response = await fetch(endpoint);
+        const url = new URL(endpoint);
+        if (debouncedQuery) url.searchParams.set('q', debouncedQuery);
+        const response = await fetch(url.toString());
         console.log("Response from backend:", response);
         
         if (!response.ok) {
@@ -114,7 +124,7 @@ export const CollectiblesDashboard = () => {
       }
     };
     fetchItems();
-  }, [activeTab]);
+  }, [activeTab, debouncedQuery]);
 
   // Toggle saved status on item
   const handleToggleSave = async (id: string) => {
@@ -242,11 +252,15 @@ export const CollectiblesDashboard = () => {
         onRefresh={handleRefresh}
       />
       
-      <div className="container mx-auto px-6 py-8">
-        <SearchFilters />
+      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <SearchFilters
+          query={searchQuery}
+          onQueryChange={setSearchQuery}
+          onClear={() => setSearchQuery("")}
+        />
         
         {filteredItems.length === 0 ? (
-          <div className="text-center py-16">
+          <div className="text-center py-12 sm:py-16">
             <p className="text-muted-foreground text-lg">
               {activeTab === "saved" ? "No saved items yet" : 
                activeTab === "today" ? "No new items today" :
@@ -264,7 +278,7 @@ export const CollectiblesDashboard = () => {
             </p>
           </div>
         ) : (
-          <div className="dashboard-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="dashboard-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
             {filteredItems.map((item) => (
               <CollectibleCard
                 key={item.id}
