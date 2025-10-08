@@ -3,14 +3,15 @@ import { RefreshCw } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 interface DashboardNavProps {
-  activeTab: "all" | "saved";
-  onTabChange: (tab: "all" | "saved") => void;
+  activeTab: "today" | "last3days" | "saved";
+  onTabChange: (tab: "today" | "last3days" | "saved") => void;
   totalItems: number;
+  last3DaysItems: number;
   savedItems: number;
   onRefresh: () => void;
 }
 
-export const DashboardNav = ({ activeTab, onTabChange, totalItems, savedItems, onRefresh }: DashboardNavProps) => {
+export const DashboardNav = ({ activeTab, onTabChange, totalItems, last3DaysItems, savedItems, onRefresh }: DashboardNavProps) => {
   return (
     <div className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-10">
       <div className="container mx-auto px-6 py-4">
@@ -35,17 +36,31 @@ export const DashboardNav = ({ activeTab, onTabChange, totalItems, savedItems, o
         
         <div className="flex flex-wrap gap-2">
           <Button
-            variant={activeTab === "all" ? "default" : "ghost"}
-            onClick={() => onTabChange("all")}
+            variant={activeTab === "today" ? "default" : "ghost"}
+            onClick={() => onTabChange("today")}
             className={`${
-              activeTab === "all"
+              activeTab === "today"
                 ? "bg-primary text-primary-foreground shadow-sm"
                 : "text-muted-foreground hover:text-foreground"
             } transition-all`}
           >
-            All Listings
+            Today's New
             <span className="ml-2 px-2 py-0.5 rounded-full bg-muted text-muted-foreground text-xs font-medium">
               {totalItems}
+            </span>
+          </Button>
+          <Button
+            variant={activeTab === "last3days" ? "default" : "ghost"}
+            onClick={() => onTabChange("last3days")}
+            className={`${
+              activeTab === "last3days"
+                ? "bg-primary text-primary-foreground shadow-sm"
+                : "text-muted-foreground hover:text-foreground"
+            } transition-all`}
+          >
+            Last 3 Days
+            <span className="ml-2 px-2 py-0.5 rounded-full bg-muted text-muted-foreground text-xs font-medium">
+              {last3DaysItems}
             </span>
           </Button>
           <Button

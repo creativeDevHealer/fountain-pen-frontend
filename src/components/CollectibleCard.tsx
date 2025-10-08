@@ -10,6 +10,8 @@ export interface CollectibleItem {
   image: string;
   url: string;
   saved?: boolean;
+  createdAt?: string;
+  date?: string;
 }
 
 interface CollectibleCardProps {
