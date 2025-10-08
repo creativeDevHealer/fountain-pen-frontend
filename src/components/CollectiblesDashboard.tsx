@@ -20,7 +20,7 @@ export const CollectiblesDashboard = () => {
 
   const refreshStats = async () => {
     try {
-      const res = await fetch('http://localhost:8000/items/stats');
+      const res = await fetch('http://44.249.247.63:8000/items/stats');
       if (!res.ok) return;
       const data = await res.json();
       setTodayCount(data.today || 0);
@@ -77,10 +77,10 @@ export const CollectiblesDashboard = () => {
     const fetchItems = async () => {
       try {
         console.log("Fetching items from the backend");
-        let endpoint = 'http://localhost:8000/items';
-        if (activeTab === 'today') endpoint = 'http://localhost:8000/items/today';
-        else if (activeTab === 'last3days') endpoint = 'http://localhost:8000/items/last3days';
-        else if (activeTab === 'saved') endpoint = 'http://localhost:8000/items/saved';
+        let endpoint = 'http://44.249.247.63:8000/items';
+        if (activeTab === 'today') endpoint = 'http://44.249.247.63:8000/items/today';
+        else if (activeTab === 'last3days') endpoint = 'http://44.249.247.63:8000/items/last3days';
+        else if (activeTab === 'saved') endpoint = 'http://44.249.247.63:8000/items/saved';
         const url = new URL(endpoint);
         if (debouncedQuery) url.searchParams.set('q', debouncedQuery);
         const response = await fetch(url.toString());
@@ -133,7 +133,7 @@ export const CollectiblesDashboard = () => {
       if (itemToUpdate) {
         const updatedItem = { ...itemToUpdate, saved: !itemToUpdate.saved };
 
-        const response = await fetch(`http://localhost:8000/items/${id}?saved=${updatedItem.saved}`, {
+        const response = await fetch(`http://44.249.247.63:8000/items/${id}?saved=${updatedItem.saved}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(updatedItem),
