@@ -10,6 +10,7 @@ export interface CollectibleItem {
   image: string;
   url: string;
   saved?: boolean;
+  viewed?: boolean;
   createdAt?: string;
   date?: string;
 }
@@ -21,6 +22,7 @@ interface CollectibleCardProps {
 
 export const CollectibleCard = ({ item, onToggleSave }: CollectibleCardProps) => {
   const [isLiked, setIsLiked] = useState(item.saved || false);
+  const [hasViewed, setHasViewed] = useState(!!item.viewed);
 
   const handleToggleLike = () => {
     setIsLiked(!isLiked);
@@ -28,7 +30,7 @@ export const CollectibleCard = ({ item, onToggleSave }: CollectibleCardProps) =>
   };
 
   return (
-    <Card className="group overflow-hidden border-0 bg-gradient-to-br from-card to-secondary/20 hover:shadow-[var(--shadow-elegant)] transition-all duration-300 hover:-translate-y-1">
+    <Card className={`group overflow-hidden border-0 bg-gradient-to-br ${hasViewed ? 'from-muted/60 to-muted/20 ring-1 ring-muted/30' : 'from-card to-secondary/20'} hover:shadow-[var(--shadow-elegant)] transition-all duration-300 hover:-translate-y-1`}>
       <div className="relative">
         <div className="aspect-square overflow-hidden bg-muted">
           <img
@@ -64,10 +66,17 @@ export const CollectibleCard = ({ item, onToggleSave }: CollectibleCardProps) =>
           <Button
             variant="outline"
             size="sm"
-            className="border-premium/20 text-premium hover:bg-premium hover:text-premium-foreground"
-            onClick={() => window.open(item.url, '_blank')}
+            className={`${hasViewed ? 'border-accent/30 text-accent hover:bg-accent hover:text-accent-foreground' : 'border-premium/20 text-premium hover:bg-premium hover:text-premium-foreground'}`}
+            onClick={async () => {
+              try {
+                // Fire-and-forget: mark as viewed in backend
+                setHasViewed(true);
+                fetch(`http://44.249.247.63:8000/items/${item.id}?viewed=true`, { method: 'PUT' }).catch(() => {});
+              } catch (e) {}
+              window.open(item.url, '_blank');
+            }}
           >
-            View
+            {hasViewed ? 'View Again' : 'View'}
           </Button>
         </div>
       </div>
