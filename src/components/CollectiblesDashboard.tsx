@@ -10,6 +10,7 @@ import { CollectibleItem } from "./CollectibleCard";  // Assuming you've defined
 export const CollectiblesDashboard = () => {
   const [activeTab, setActiveTab] = useState<"today" | "last3days" | "saved">("today");
   const [items, setItems] = useState<CollectibleItem[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const { toast } = useToast();
@@ -76,6 +77,7 @@ export const CollectiblesDashboard = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
+        setIsLoading(true);
         console.log("Fetching items from the backend");
         let endpoint = 'http://44.249.247.63:8000/items';
         if (activeTab === 'today') endpoint = 'http://44.249.247.63:8000/items/today';
@@ -121,6 +123,8 @@ export const CollectiblesDashboard = () => {
             : "Unable to fetch collectible items from the server.",
           duration: 5000,
         });
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchItems();
@@ -244,7 +248,20 @@ export const CollectiblesDashboard = () => {
           onClear={() => setSearchQuery("")}
         />
         
-        {filteredItems.length === 0 ? (
+        {isLoading ? (
+          <div className="dashboard-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="overflow-hidden rounded-xl border border-border/50 bg-card animate-pulse">
+                <div className="aspect-square bg-muted/60" />
+                <div className="p-6 space-y-3">
+                  <div className="h-4 bg-muted rounded w-3/4" />
+                  <div className="h-4 bg-muted rounded w-1/2" />
+                  <div className="h-9 bg-muted rounded w-24 ml-auto" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : filteredItems.length === 0 ? (
           <div className="text-center py-12 sm:py-16">
             <p className="text-muted-foreground text-lg">
               {activeTab === "saved" ? "No saved items yet" : 

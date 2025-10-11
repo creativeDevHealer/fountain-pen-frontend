@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -24,19 +24,30 @@ export const CollectibleCard = ({ item, onToggleSave }: CollectibleCardProps) =>
   const [isLiked, setIsLiked] = useState(item.saved || false);
   const [hasViewed, setHasViewed] = useState(!!item.viewed);
 
+  // Sync local viewed state when item prop changes (e.g., after refresh)
+  useEffect(() => {
+    setHasViewed(!!item.viewed);
+  }, [item.viewed, item.id]);
+
   const handleToggleLike = () => {
     setIsLiked(!isLiked);
     onToggleSave(item.id);
   };
 
   return (
-    <Card className={`group overflow-hidden border-0 bg-gradient-to-br ${hasViewed ? 'from-muted/60 to-muted/20 ring-1 ring-muted/30' : 'from-card to-secondary/20'} hover:shadow-[var(--shadow-elegant)] transition-all duration-300 hover:-translate-y-1`}>
+    <Card className={`group overflow-hidden border-0 bg-gradient-to-br ${hasViewed ? 'from-amber-50 to-orange-50 dark:from-secondary/40 dark:to-secondary/20 ring-1 ring-amber-200/60 dark:ring-secondary/40' : 'from-card to-secondary/20'} hover:shadow-[var(--shadow-elegant)] transition-all duration-300 hover:-translate-y-1`}>
       <div className="relative">
         <div className="aspect-square overflow-hidden bg-muted">
           <img
-            src={item.image}
+            src={item.image || "/placeholder.svg"}
             alt={item.name}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            onError={(e) => {
+              const target = e.currentTarget as HTMLImageElement;
+              if (target.src.indexOf('/placeholder.svg') === -1) {
+                target.src = '/placeholder.svg';
+              }
+            }}
           />
         </div>
         <Button
