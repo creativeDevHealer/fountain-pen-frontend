@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { API_BASE } from "@/lib/utils";
 import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -82,7 +83,7 @@ export const CollectibleCard = ({ item, onToggleSave }: CollectibleCardProps) =>
               try {
                 // Fire-and-forget: mark as viewed in backend
                 setHasViewed(true);
-                fetch(`http://44.249.247.63:8000/items/${item.id}?viewed=true`, { method: 'PUT' }).catch(() => {});
+                fetch(`${API_BASE}/items/${item.id}?viewed=true`, { method: 'PUT' }).catch(() => {});
               } catch (e) {}
               window.open(item.url, '_blank');
             }}

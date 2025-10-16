@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { RefreshCw, CalendarDays, Clock, Heart } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { useNavigate } from "react-router-dom";
+import { clearAuthToken } from "@/lib/utils";
 
 interface DashboardNavProps {
   activeTab: "today" | "last3days" | "saved";
@@ -12,6 +14,7 @@ interface DashboardNavProps {
 }
 
 export const DashboardNav = ({ activeTab, onTabChange, totalItems, last3DaysItems, savedItems, onRefresh }: DashboardNavProps) => {
+  const navigate = useNavigate();
   return (
     <div className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-10">
       <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4">
@@ -30,6 +33,8 @@ export const DashboardNav = ({ activeTab, onTabChange, totalItems, last3DaysItem
               <RefreshCw className="h-4 w-4" />
               <span className="sr-only">Refresh listings</span>
             </Button>
+            <Button variant="outline" className="rounded-lg" onClick={() => navigate('/settings')}>Settings</Button>
+            <Button variant="destructive" className="rounded-lg" onClick={() => { try { clearAuthToken(); } catch (e) {} navigate('/login', { replace: true }); }}>Logout</Button>
             <ThemeToggle />
           </div>
         </div>

@@ -7,9 +7,11 @@ interface SearchFiltersProps {
   query: string;
   onQueryChange: (value: string) => void;
   onClear: () => void;
+  site?: string;
+  onSiteChange?: (value: string) => void;
 }
 
-export const SearchFilters = ({ query, onQueryChange, onClear }: SearchFiltersProps) => {
+export const SearchFilters = ({ query, onQueryChange, onClear, site = '', onSiteChange }: SearchFiltersProps) => {
   return (
     <div className="mb-4 sm:mb-6 space-y-3 sm:space-y-4">
       {/* Search Bar */}
@@ -36,6 +38,27 @@ export const SearchFilters = ({ query, onQueryChange, onClear }: SearchFiltersPr
       {/* Filter Controls */}
       <div className="-mx-6 sm:mx-0 overflow-x-auto">
         <div className="flex items-center gap-2 px-6 sm:px-0 min-w-max">
+          {/* Site filter */}
+          <div className="flex items-center gap-2">
+            <label className="text-xs text-muted-foreground">Site</label>
+            <select
+              value={site}
+              onChange={(e) => onSiteChange?.(e.target.value)}
+              className="h-9 rounded-full border bg-background px-3 text-sm"
+            >
+              <option value="">All</option>
+              <option value="ebay">eBay</option>
+              <option value="lotArt">Lot Art</option>
+              <option value="carousell">Carousell</option>
+              <option value="invaluable">Invaluable</option>
+              <option value="salesroom">The Saleroom</option>
+              <option value="dylanStephen">Dylan Stephen</option>
+              <option value="penLoverBoutique">Pen Lover Boutique</option>
+              <option value="vintageAndModernPens">Vintage & Modern Pens</option>
+              <option value="catawiki">Catawiki</option>
+              <option value="milanuncios">Milanuncios</option>
+            </select>
+          </div>
           <Button variant="outline" size="sm" className="gap-2 rounded-full">
           <Filter className="h-4 w-4" />
           Price Range

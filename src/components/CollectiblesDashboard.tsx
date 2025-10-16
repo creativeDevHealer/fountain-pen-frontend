@@ -4,6 +4,7 @@ import { CollectibleCard } from "./CollectibleCard";
 import { SearchFilters } from "./SearchFilters";
 import { ComingSoonFeatures } from "./ComingSoonFeatures";
 import { useToast } from "@/hooks/use-toast";
+import { API_BASE } from "@/lib/utils";
 import { CollectibleItem } from "./CollectibleCard";  // Assuming you've defined a CollectibleItem interface for types
 
 
@@ -13,6 +14,7 @@ export const CollectiblesDashboard = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
+  const [site, setSite] = useState("");
   const { toast } = useToast();
   const [todayCount, setTodayCount] = useState(0);
   const [last3DaysCount, setLast3DaysCount] = useState(0);
@@ -21,7 +23,7 @@ export const CollectiblesDashboard = () => {
 
   const refreshStats = async () => {
     try {
-      const res = await fetch('http://44.249.247.63:8000/items/stats');
+      const res = await fetch(`${API_BASE}/items/stats`);
       if (!res.ok) return;
       const data = await res.json();
       setTodayCount(data.today || 0);
@@ -30,7 +32,7 @@ export const CollectiblesDashboard = () => {
     } catch (_e) {}
   };
 
-  useEffect(() => { refreshStats(); }, [activeTab, debouncedQuery]);
+  useEffect(() => { refreshStats(); }, [activeTab, debouncedQuery, site]);
 
   // Debounce search input
   useEffect(() => {
@@ -79,12 +81,13 @@ export const CollectiblesDashboard = () => {
       try {
         setIsLoading(true);
         console.log("Fetching items from the backend");
-        let endpoint = 'http://44.249.247.63:8000/items';
-        if (activeTab === 'today') endpoint = 'http://44.249.247.63:8000/items/today';
-        else if (activeTab === 'last3days') endpoint = 'http://44.249.247.63:8000/items/last3days';
-        else if (activeTab === 'saved') endpoint = 'http://44.249.247.63:8000/items/saved';
+        let endpoint = `${API_BASE}/items`;
+        if (activeTab === 'today') endpoint = `${API_BASE}/items/today`;
+        else if (activeTab === 'last3days') endpoint = `${API_BASE}/items/last3days`;
+        else if (activeTab === 'saved') endpoint = `${API_BASE}/items/saved`;
         const url = new URL(endpoint);
         if (debouncedQuery) url.searchParams.set('q', debouncedQuery);
+        if (site) url.searchParams.set('site', site);
         const response = await fetch(url.toString());
         console.log("Response from backend:", response);
         
@@ -128,7 +131,7 @@ export const CollectiblesDashboard = () => {
       }
     };
     fetchItems();
-  }, [activeTab, debouncedQuery]);
+  }, [activeTab, debouncedQuery, site]);
 
   // Toggle saved status on item
   const handleToggleSave = async (id: string) => {
@@ -137,7 +140,7 @@ export const CollectiblesDashboard = () => {
       if (itemToUpdate) {
         const updatedItem = { ...itemToUpdate, saved: !itemToUpdate.saved };
 
-        const response = await fetch(`http://44.249.247.63:8000/items/${id}?saved=${updatedItem.saved}`, {
+        const response = await fetch(`${API_BASE}/items/${id}?saved=${updatedItem.saved}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(updatedItem),
@@ -246,6 +249,8 @@ export const CollectiblesDashboard = () => {
           query={searchQuery}
           onQueryChange={setSearchQuery}
           onClear={() => setSearchQuery("")}
+          site={site}
+          onSiteChange={setSite}
         />
         
         {isLoading ? (
