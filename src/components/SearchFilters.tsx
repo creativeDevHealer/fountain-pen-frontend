@@ -37,17 +37,17 @@ export const SearchFilters = ({ query, onQueryChange, onClear, site = '', onSite
       </div>
 
       {/* Filter Controls */}
-      <div className="-mx-6 sm:mx-0 overflow-x-auto">
+      <div className="-mx-6 sm:mx-0 overflow-x-auto" style={{ paddingTop: '10px' }}>
         <div className="flex items-center gap-2 px-6 sm:px-0 min-w-max">
           {/* Site filter */}
           <div className="flex items-center gap-2">
             <label className="text-xs text-muted-foreground">Site</label>
-            <Badge variant="destructive">New</Badge>
-            <Select value={site ? site : 'all'} onValueChange={(v) => onSiteChange?.(v === 'all' ? '' : v)}>
-              <SelectTrigger className="h-9 rounded-full w-48">
-                <SelectValue placeholder="All" />
-              </SelectTrigger>
-              <SelectContent>
+            <div className="relative">
+              <Select value={site ? site : 'all'} onValueChange={(v) => onSiteChange?.(v === 'all' ? '' : v)}>
+                <SelectTrigger className="h-9 rounded-full w-48 pr-10">
+                  <SelectValue placeholder="All" />
+                </SelectTrigger>
+                <SelectContent>
                 <SelectItem value="all">All</SelectItem>
                 <SelectItem value="ebay">eBay</SelectItem>
                 <SelectItem value="lotArt">Lot Art</SelectItem>
@@ -59,13 +59,16 @@ export const SearchFilters = ({ query, onQueryChange, onClear, site = '', onSite
                 <SelectItem value="vintageAndModernPens">Vintage & Modern Pens</SelectItem>
                 <SelectItem value="catawiki">Catawiki</SelectItem>
                 <SelectItem value="milanuncios">Milanuncios</SelectItem>
-                <SelectItem value="cultpens">
+                <SelectItem value="cultpens" className="relative">
                   <span className="inline-flex items-center gap-2">
-                    Cult Pens <Badge variant="destructive">New</Badge>
+                    Cult Pens
+                    <span className="h-2 w-2 rounded-full bg-red-500" />
                   </span>
                 </SelectItem>
-              </SelectContent>
-            </Select>
+                </SelectContent>
+              </Select>
+               <Badge variant="destructive" className="absolute top-0 right-2 -translate-y-1/2 text-[10px] pointer-events-none z-10">New</Badge>
+            </div>
           </div>
           <Button variant="outline" size="sm" className="gap-2 rounded-full">
           <Filter className="h-4 w-4" />

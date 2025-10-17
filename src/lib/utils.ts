@@ -30,7 +30,7 @@ export function authFetch(input: RequestInfo | URL, init: RequestInit = {}) {
   // Bypass ngrok browser warning interstitial for API calls
   try {
     const urlStr = typeof input === 'string' ? input : (input as URL).toString();
-    if (API_BASE.includes('ngrok') || /ngrok/i.test(urlStr)) {
+    if (/\.ngrok-?free\.app/i.test(API_BASE) || /ngrok/i.test(urlStr)) {
       headers.set('ngrok-skip-browser-warning', '1');
     }
   } catch (_e) {}
@@ -43,7 +43,7 @@ export function apiFetch(input: RequestInfo | URL, init: RequestInit = {}) {
   if (!headers.has('Content-Type')) headers.set('Content-Type', 'application/json');
   try {
     const urlStr = typeof input === 'string' ? input : (input as URL).toString();
-    if (API_BASE.includes('ngrok') || /ngrok/i.test(urlStr)) {
+    if (/\.ngrok-?free\.app/i.test(API_BASE) || /ngrok/i.test(urlStr)) {
       headers.set('ngrok-skip-browser-warning', '1');
     }
   } catch (_e) {}

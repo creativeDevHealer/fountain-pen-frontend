@@ -4,7 +4,7 @@ import { CollectibleCard } from "./CollectibleCard";
 import { SearchFilters } from "./SearchFilters";
 import { ComingSoonFeatures } from "./ComingSoonFeatures";
 import { useToast } from "@/hooks/use-toast";
-import { API_BASE } from "@/lib/utils";
+import { API_BASE, apiFetch } from "@/lib/utils";
 import { CollectibleItem } from "./CollectibleCard";  // Assuming you've defined a CollectibleItem interface for types
 
 
@@ -23,7 +23,7 @@ export const CollectiblesDashboard = () => {
 
   const refreshStats = async () => {
     try {
-      const res = await fetch(`${API_BASE}/items/stats`);
+      const res = await apiFetch(`${API_BASE}/items/stats`);
       if (!res.ok) return;
       const data = await res.json();
       setTodayCount(data.today || 0);
@@ -88,7 +88,7 @@ export const CollectiblesDashboard = () => {
         const url = new URL(endpoint);
         if (debouncedQuery) url.searchParams.set('q', debouncedQuery);
         if (site) url.searchParams.set('site', site);
-        const response = await fetch(url.toString());
+        const response = await apiFetch(url.toString());
         console.log("Response from backend:", response);
         
         if (!response.ok) {
@@ -140,7 +140,7 @@ export const CollectiblesDashboard = () => {
       if (itemToUpdate) {
         const updatedItem = { ...itemToUpdate, saved: !itemToUpdate.saved };
 
-        const response = await fetch(`${API_BASE}/items/${id}?saved=${updatedItem.saved}`, {
+        const response = await apiFetch(`${API_BASE}/items/${id}?saved=${updatedItem.saved}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(updatedItem),
