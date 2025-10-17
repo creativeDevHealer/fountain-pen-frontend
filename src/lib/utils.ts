@@ -30,4 +30,4 @@ export function authFetch(input: RequestInfo | URL, init: RequestInit = {}) {
   return fetch(input, { ...init, headers });
 }
 
-export const API_BASE = 'http://44.249.247.63:8000';
+export const API_BASE = 'https://jennie-conceptive-uncomprehendingly.ngrok-free.app';
