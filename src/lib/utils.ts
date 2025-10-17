@@ -27,6 +27,26 @@ export function authFetch(input: RequestInfo | URL, init: RequestInit = {}) {
   const headers = new Headers(init.headers || {});
   if (token) headers.set('Authorization', 'Bearer ' + token);
   if (!headers.has('Content-Type')) headers.set('Content-Type', 'application/json');
+  // Bypass ngrok browser warning interstitial for API calls
+  try {
+    const urlStr = typeof input === 'string' ? input : (input as URL).toString();
+    if (API_BASE.includes('ngrok') || /ngrok/i.test(urlStr)) {
+      headers.set('ngrok-skip-browser-warning', '1');
+    }
+  } catch (_e) {}
+  return fetch(input, { ...init, headers });
+}
+
+// Non-auth API fetch with the same ngrok bypass header
+export function apiFetch(input: RequestInfo | URL, init: RequestInit = {}) {
+  const headers = new Headers(init.headers || {});
+  if (!headers.has('Content-Type')) headers.set('Content-Type', 'application/json');
+  try {
+    const urlStr = typeof input === 'string' ? input : (input as URL).toString();
+    if (API_BASE.includes('ngrok') || /ngrok/i.test(urlStr)) {
+      headers.set('ngrok-skip-browser-warning', '1');
+    }
+  } catch (_e) {}
   return fetch(input, { ...init, headers });
 }
 
