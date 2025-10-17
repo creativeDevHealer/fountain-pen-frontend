@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search, Filter, Globe, Bot, Settings, AlertTriangle, X } from "lucide-react";
 
 interface SearchFiltersProps {
@@ -41,23 +42,30 @@ export const SearchFilters = ({ query, onQueryChange, onClear, site = '', onSite
           {/* Site filter */}
           <div className="flex items-center gap-2">
             <label className="text-xs text-muted-foreground">Site</label>
-            <select
-              value={site}
-              onChange={(e) => onSiteChange?.(e.target.value)}
-              className="h-9 rounded-full border bg-background px-3 text-sm"
-            >
-              <option value="">All</option>
-              <option value="ebay">eBay</option>
-              <option value="lotArt">Lot Art</option>
-              <option value="carousell">Carousell</option>
-              <option value="invaluable">Invaluable</option>
-              <option value="salesroom">The Saleroom</option>
-              <option value="dylanStephen">Dylan Stephen</option>
-              <option value="penLoverBoutique">Pen Lover Boutique</option>
-              <option value="vintageAndModernPens">Vintage & Modern Pens</option>
-              <option value="catawiki">Catawiki</option>
-              <option value="milanuncios">Milanuncios</option>
-            </select>
+            <Badge variant="destructive">New</Badge>
+            <Select value={site ? site : 'all'} onValueChange={(v) => onSiteChange?.(v === 'all' ? '' : v)}>
+              <SelectTrigger className="h-9 rounded-full w-48">
+                <SelectValue placeholder="All" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="ebay">eBay</SelectItem>
+                <SelectItem value="lotArt">Lot Art</SelectItem>
+                <SelectItem value="carousell">Carousell</SelectItem>
+                <SelectItem value="invaluable">Invaluable</SelectItem>
+                <SelectItem value="salesroom">The Saleroom</SelectItem>
+                <SelectItem value="dylanStephen">Dylan Stephen</SelectItem>
+                <SelectItem value="penLoverBoutique">Pen Lover Boutique</SelectItem>
+                <SelectItem value="vintageAndModernPens">Vintage & Modern Pens</SelectItem>
+                <SelectItem value="catawiki">Catawiki</SelectItem>
+                <SelectItem value="milanuncios">Milanuncios</SelectItem>
+                <SelectItem value="cultpens">
+                  <span className="inline-flex items-center gap-2">
+                    Cult Pens <Badge variant="destructive">New</Badge>
+                  </span>
+                </SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           <Button variant="outline" size="sm" className="gap-2 rounded-full">
           <Filter className="h-4 w-4" />
