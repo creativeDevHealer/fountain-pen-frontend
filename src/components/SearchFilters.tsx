@@ -65,6 +65,12 @@ export const SearchFilters = ({ query, onQueryChange, onClear, site = '', onSite
                     <span className="h-2 w-2 rounded-full bg-red-500" />
                   </span>
                 </SelectItem>
+                <SelectItem value="appelboom" className="relative">
+                  <span className="inline-flex items-center gap-2">
+                    Appelboom
+                    <span className="h-2 w-2 rounded-full bg-red-500" />
+                  </span>
+                </SelectItem>
                 </SelectContent>
               </Select>
                <Badge variant="destructive" className="absolute top-0 right-2 -translate-y-1/2 text-[10px] pointer-events-none z-10">New</Badge>
