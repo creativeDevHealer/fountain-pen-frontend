@@ -10,9 +10,11 @@ interface SearchFiltersProps {
   onClear: () => void;
   site?: string;
   onSiteChange?: (value: string) => void;
+  sourcesTotal?: number;
+  sourcesActive?: number;
 }
 
-export const SearchFilters = ({ query, onQueryChange, onClear, site = '', onSiteChange }: SearchFiltersProps) => {
+export const SearchFilters = ({ query, onQueryChange, onClear, site = '', onSiteChange, sourcesTotal = 12, sourcesActive = 12 }: SearchFiltersProps) => {
   return (
     <div className="mb-4 sm:mb-6 space-y-3 sm:space-y-4">
       {/* Search Bar */}
@@ -110,7 +112,7 @@ export const SearchFilters = ({ query, onQueryChange, onClear, site = '', onSite
         </div>
         <div className="flex items-center gap-2 bg-muted/50 px-2.5 py-1 rounded-full">
           <AlertTriangle className="h-3 w-3" />
-          47 Sources (23 Active)
+          {sourcesTotal} Sources ({sourcesActive} Active)
         </div>
         <div className="flex items-center gap-2 bg-muted/50 px-2.5 py-1 rounded-full">
           <Bot className="h-3 w-3" />
