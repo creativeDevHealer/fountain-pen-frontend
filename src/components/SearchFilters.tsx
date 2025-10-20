@@ -14,7 +14,7 @@ interface SearchFiltersProps {
   sourcesActive?: number;
 }
 
-export const SearchFilters = ({ query, onQueryChange, onClear, site = '', onSiteChange, sourcesTotal = 12, sourcesActive = 12 }: SearchFiltersProps) => {
+export const SearchFilters = ({ query, onQueryChange, onClear, site = '', onSiteChange, sourcesTotal = 17, sourcesActive = 17 }: SearchFiltersProps) => {
   return (
     <div className="mb-4 sm:mb-6 space-y-3 sm:space-y-4">
       {/* Search Bar */}
