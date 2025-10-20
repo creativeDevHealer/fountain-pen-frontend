@@ -14,7 +14,7 @@ interface SearchFiltersProps {
   sourcesActive?: number;
 }
 
-export const SearchFilters = ({ query, onQueryChange, onClear, site = '', onSiteChange, sourcesTotal = 17, sourcesActive = 17 }: SearchFiltersProps) => {
+export const SearchFilters = ({ query, onQueryChange, onClear, site = '', onSiteChange, sourcesTotal = 20, sourcesActive = 20 }: SearchFiltersProps) => {
   return (
     <div className="mb-4 sm:mb-6 space-y-3 sm:space-y-4">
       {/* Search Bar */}
@@ -64,6 +64,8 @@ export const SearchFilters = ({ query, onQueryChange, onClear, site = '', onSite
                 <SelectItem value="subito">Subito</SelectItem>
                 <SelectItem value="kleinanzeigen">Kleinanzeigen</SelectItem>
                 <SelectItem value="izods">IZODS</SelectItem>
+                <SelectItem value="penexchange">PenExcange.de</SelectItem>
+                <SelectItem value="craiglist">Craiglist</SelectItem>
                 <SelectItem value="cruzaltpens">CruzaltPens</SelectItem>
                 <SelectItem value="chatterleyluxuries">ChatterleyLuxuries</SelectItem>
                 <SelectItem value="cultpens" className="relative">
@@ -75,6 +77,12 @@ export const SearchFilters = ({ query, onQueryChange, onClear, site = '', onSite
                 <SelectItem value="appelboom" className="relative">
                   <span className="inline-flex items-center gap-2">
                     Appelboom
+                    <span className="h-2 w-2 rounded-full bg-red-500" />
+                  </span>
+                </SelectItem>
+                <SelectItem value="penworld" className="relative">
+                  <span className="inline-flex items-center gap-2">
+                    PenWorld
                     <span className="h-2 w-2 rounded-full bg-red-500" />
                   </span>
                 </SelectItem>
