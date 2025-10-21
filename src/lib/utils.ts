@@ -50,4 +50,4 @@ export function apiFetch(input: RequestInfo | URL, init: RequestInit = {}) {
   return fetch(input, { ...init, headers });
 }
 
-export const API_BASE = 'https://jennie-conceptive-uncomprehendingly.ngrok-free.app';
+export const API_BASE = 'http://83.136.211.206:8000';
