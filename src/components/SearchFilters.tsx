@@ -68,6 +68,7 @@ export const SearchFilters = ({ query, onQueryChange, onClear, site = '', onSite
                 <SelectItem value="craiglist">Craiglist</SelectItem>
                 <SelectItem value="cruzaltpens">CruzaltPens</SelectItem>
                 <SelectItem value="chatterleyluxuries">ChatterleyLuxuries</SelectItem>
+                <SelectItem value="vinted">Vinted</SelectItem>
                 <SelectItem value="cultpens" className="relative">
                   <span className="inline-flex items-center gap-2">
                     Cult Pens
